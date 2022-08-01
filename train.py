@@ -20,9 +20,8 @@ device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cp
 
 print(torch.__version__, pl.__version__, wandb.__version__)
 
-files = pd.read_csv(TRAIN_FILES)["img_path"].tolist()
+files = pd.read_csv(ALL_FILES)["img_path"].tolist()
 files = [os.path.join(TRAIN_DIR, path) for path in files]
-# files = files[:1000]
 print("Number of images:", len(files))
 
 train_files, valid_files = train_test_split(files, test_size=0.15, random_state=42)
@@ -73,6 +72,8 @@ trainer = pl.Trainer(
     logger=logger,
     precision=16,
     num_sanity_val_steps=0,
+    # limit_train_batches=0.01,
+    # limit_val_batches=0.01,
 )
 print("Training...")
 trainer.fit(lightning_model, train_dl, valid_dl)

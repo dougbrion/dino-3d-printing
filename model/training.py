@@ -63,7 +63,7 @@ class LightningModel(pl.LightningModule):
     ) -> torch.Tensor:
         
         loss, emperical_center = self.loss_calculation(batch)
-        self.log(name="Training loss", value=loss, on_step=True, on_epoch=True)
+        self.log(name="Training loss", value=loss, on_step=True, on_epoch=True, prog_bar=True)
         
         self.center = F.normalize(
             self.c_mom * self.center + (1 - self.c_mom) * emperical_center,
@@ -82,11 +82,12 @@ class LightningModel(pl.LightningModule):
         columns = ["image"] + [f"closest_{i+1}" for i in range(TOPK)]
         indices = np.random.choice(len(valid_embeds), VALID_IMAGES, replace=False)
         rows = [get_closest_wandb_images(valid_embeds, i, self.valid_files) for i in indices]
+        print(len(columns), len(rows))
         table = wandb.Table(data=rows, columns=columns)
         self.logger.experiment.log({f"epoch {self.current_epoch} results": table})
         
     def on_after_backward(self):
-        if self.trainer.global_step % 50 == 0:  # don't make the tf file huge
+        if self.trainer.global_step % 200 == 0:  # don't make the tf file huge
             global_step = self.trainer.global_step
             for name, param in self.student.named_parameters():
                 if "weight" in name and not "norm" in name and param.requires_grad:

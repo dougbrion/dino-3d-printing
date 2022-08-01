@@ -1,8 +1,11 @@
-TRAIN_FILES = "/home/cam/Documents/FastData/cropped/train.csv"
+ALL_FILES = "/home/cam/Documents/FastData/dino-test/final.csv"
+TRAIN_FILES = "/home/cam/Documents/FastData/dino-test/train.csv"
+VAL_FILES = "/home/cam/Documents/FastData/dino-test/train.csv"
+TEST_FILES = "/home/cam/Documents/FastData/dino-test/train.csv"
 TRAIN_DIR = "/home/cam/Documents/FastData/"
 IMAGE_SIZE = 256
-DATASET_MEAN = [0.42682907, 0.41439566, 0.43669614]
-DATASET_STD = [0.18042447, 0.19965427, 0.21883497]
+DATASET_MEAN = [0.4046205, 0.40267563, 0.43739837]
+DATASET_STD = [0.1598225, 0.16807246, 0.17369135]
 PATCH_SIZE = 16
 ZERO_PCT = 0.1
 PATCHES_PER_ROW = (IMAGE_SIZE // PATCH_SIZE)
@@ -14,7 +17,7 @@ TOPK = 5
 
 # Training parameters
 BATCH_SIZE = 16
-EPOCHS = 5
+EPOCHS = 25
 LR = 1e-4
 
 # Transformer parameters
